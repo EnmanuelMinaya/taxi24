@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../../prisma.service';
 import { Driver } from '@prisma/client';
 
 @Injectable()
@@ -15,6 +15,7 @@ export class DriversService {
   async drivers(): Promise<Driver[]> {
     return this.prisma.driver.findMany({});
   }
+
   async availableDrivers(): Promise<Driver[]> {
     return this.prisma.driver.findMany({
       where: {

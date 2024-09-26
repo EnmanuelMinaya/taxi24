@@ -1,9 +1,15 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { DriversService } from './drivers.service';
+import { Controller, Get, Param, Query } from '@nestjs/common';
+import { DriversService } from './services/drivers.service';
+import { GetDriversInsideRadioService } from './services/GetDriversInsideRadio.service';
+import { GetNearDriversService } from './services/GetNearDrivers.service';
 
 @Controller('drivers')
 export class DriversController {
-  constructor(private readonly driversService: DriversService) {}
+  constructor(
+    private readonly driversService: DriversService,
+    private readonly GetDriversInsideRadioService: GetDriversInsideRadioService,
+    private readonly GetNearDriversService: GetNearDriversService,
+  ) {}
 
   @Get()
   findAll() {
@@ -13,6 +19,28 @@ export class DriversController {
   @Get('available')
   findAvailableDrivers() {
     return this.driversService.availableDrivers();
+  }
+
+  @Get('inArea')
+  GetDriversInsideRadio(
+    @Query('latitude') latitude: number,
+    @Query('longitude') longitude: number,
+  ) {
+    return this.GetDriversInsideRadioService.GetDriversInsideRadio({
+      latitude,
+      longitude,
+    });
+  }
+
+  @Get('nearby')
+  GetNearDrivers(
+    @Query('latitude') latitude: number,
+    @Query('longitude') longitude: number,
+  ) {
+    return this.GetNearDriversService.GetNearDrivers({
+      latitude,
+      longitude,
+    });
   }
 
   @Get(':id')
