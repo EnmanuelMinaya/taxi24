@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Put,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param } from '@nestjs/common';
 import { RidesService } from './rides.service';
 import { Ride as RideModel } from '@prisma/client';
 
@@ -27,14 +19,9 @@ export class RidesController {
     });
   }
 
-  @Get()
-  findAll() {
-    return this.ridesService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ridesService.findOne(+id);
+  @Get('active')
+  Active() {
+    return this.ridesService.findActiveRides();
   }
 
   @Put('complete/:id')
@@ -48,8 +35,8 @@ export class RidesController {
     });
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ridesService.remove(+id);
+  @Get(':id')
+  getRideById(@Param('id') id: string) {
+    return this.ridesService.findOne(+id);
   }
 }

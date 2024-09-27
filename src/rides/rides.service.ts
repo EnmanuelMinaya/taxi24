@@ -12,12 +12,18 @@ export class RidesService {
     });
   }
 
-  findAll() {
-    return `This action returns all rides`;
+  async findActiveRides(): Promise<Ride[]> {
+    return this.prisma.ride.findMany({
+      where: {
+        status: 'active',
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} ride`;
+  async findOne(rideId: number): Promise<Ride | null> {
+    return this.prisma.ride.findUnique({
+      where: { id: rideId },
+    });
   }
 
   async updateRide(params: {
@@ -29,9 +35,5 @@ export class RidesService {
       data,
       where,
     });
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} ride`;
   }
 }

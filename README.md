@@ -1,35 +1,9 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
 ## Project setup
 
 ```bash
 $ npm install
+$ npx prisma migrate dev
+
 ```
 
 ## Compile and run the project
@@ -38,48 +12,77 @@ $ npm install
 # development
 $ npm run start
 
-# watch mode
-$ npm run start:dev
 
-# production mode
-$ npm run start:prod
 ```
 
-## Run tests
+# See table creation statements in:
 
-```bash
-# unit tests
-$ npm run test
+prisma/migrations/20240923223448*init/migration.sql
+prisma/migrations/20240927022243*/migration.sql
 
-# e2e tests
-$ npm run test:e2e
+# Endpoints
 
-# test coverage
-$ npm run test:cov
-```
+Gets all drivers
+GET
+/drivers
+Example:
+curl --location 'http://localhost:3000/drivers'
 
-## Resources
+Gets driver by id
+GET
+/driver/id
+Example:
+curl --location 'http://localhost:3000/drivers/2'
 
-Check out a few resources that may come in handy when working with NestJS:
+Gets the drivers with status available
+GET
+/drivers/available
+Example:
+curl --location 'http://localhost:3000/drivers/available'
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Gets the 3 nearest drivers to the provided latitude and longitude.
+GET
+/drivers/nearBy?latitude&longitude
+Example:
+curl --location 'http://localhost:3000/drivers/nearby?latitude=-10.31371&longitude=46.78011'
 
-## Support
+Gets all drivers in a 3km radio, receives the latitude and longitude of the center of the circle.
+GET
+/drivers/inArea?latitude&longitude
+Example:
+curl --location 'http://localhost:3000/drivers/inArea?latitude=-10.31371&longitude=46.78011'
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Registers new ride with Driver and Passenger.
+POST
+/rides
+curl --location 'http://localhost:3000/rides' \
+--header 'Content-Type: application/json' \
+--data '{
+"driverId":3,
+"passengerId":4
+}'
 
-## Stay in touch
+Updates ride status to completed
+PUT
+rides/complete/id
+curl --location --request PUT 'http://localhost:3000/rides/complete/6'
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Gets active rides
+GET
+/rides/Active
+curl --location 'http://localhost:3000/rides/Active'
 
-## License
+Gets ride by id
+GET
+/rides/id
+curl --location 'http://localhost:3000/rides/1'
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Gets passenger by id
+GET
+/passengers/id
+curl --location 'http://localhost:3000/passengers/1'
+
+Gets all passengers
+GET
+/passengers
+curl --location 'http://localhost:3000/passengers'
