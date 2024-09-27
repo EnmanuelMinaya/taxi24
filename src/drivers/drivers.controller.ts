@@ -37,7 +37,7 @@ export class DriversController {
     @Query('latitude') latitude: number,
     @Query('longitude') longitude: number,
   ) {
-    return this.GetNearDriversService.GetNearDrivers({
+    return this.GetNearDriversService.getNearDrivers({
       latitude,
       longitude,
     });

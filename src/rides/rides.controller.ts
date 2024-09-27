@@ -3,21 +3,28 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
 } from '@nestjs/common';
 import { RidesService } from './rides.service';
-import { CreateRideDto } from './dto/create-ride.dto';
-import { UpdateRideDto } from './dto/update-ride.dto';
+import { Ride as RideModel } from '@prisma/client';
 
 @Controller('rides')
 export class RidesController {
   constructor(private readonly ridesService: RidesService) {}
 
   @Post()
-  create(@Body() createRideDto: CreateRideDto) {
-    return this.ridesService.create(createRideDto);
+  create(@Body() data: Pick<RideModel, 'driverId' | 'passengerId'>) {
+    const { driverId, passengerId } = data;
+    return this.ridesService.create({
+      driver: {
+        connect: { id: driverId },
+      },
+      passenger: {
+        connect: { id: passengerId },
+      },
+    });
   }
 
   @Get()
@@ -30,9 +37,15 @@ export class RidesController {
     return this.ridesService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRideDto: UpdateRideDto) {
-    return this.ridesService.update(+id, updateRideDto);
+  @Put('complete/:id')
+  async publishPost(@Param('id') id: string): Promise<RideModel> {
+    return this.ridesService.updateRide({
+      where: { id: Number(id) },
+      data: {
+        status: 'completed',
+        endTime: new Date().toISOString(),
+      },
+    });
   }
 
   @Delete(':id')

@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { CreateRideDto } from './dto/create-ride.dto';
-import { UpdateRideDto } from './dto/update-ride.dto';
+import { PrismaService } from '../prisma.service';
+import { Prisma, Ride } from '@prisma/client';
 
 @Injectable()
 export class RidesService {
-  create(createRideDto: CreateRideDto) {
-    return 'This action adds a new ride';
+  constructor(private prisma: PrismaService) {}
+
+  async create(data: Prisma.RideCreateInput): Promise<Ride> {
+    return this.prisma.ride.create({
+      data,
+    });
   }
 
   findAll() {
@@ -16,8 +20,15 @@ export class RidesService {
     return `This action returns a #${id} ride`;
   }
 
-  update(id: number, updateRideDto: UpdateRideDto) {
-    return `This action updates a #${id} ride`;
+  async updateRide(params: {
+    where: Prisma.RideWhereUniqueInput;
+    data: Prisma.RideUpdateInput;
+  }): Promise<Ride> {
+    const { data, where } = params;
+    return this.prisma.ride.update({
+      data,
+      where,
+    });
   }
 
   remove(id: number) {

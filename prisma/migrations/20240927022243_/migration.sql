@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Ride" ALTER COLUMN "startLatitude" DROP NOT NULL,
+ALTER COLUMN "startLongitude" DROP NOT NULL,
+ALTER COLUMN "endLatitude" DROP NOT NULL,
+ALTER COLUMN "endLongitude" DROP NOT NULL;

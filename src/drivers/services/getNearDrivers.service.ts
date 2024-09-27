@@ -28,7 +28,7 @@ export class GetNearDriversService {
     }));
   };
 
-  async GetNearDrivers(passengerLocation: location) {
+  async getNearDrivers(passengerLocation: location) {
     const availableDrivers = await this.prisma.driver.findMany({
       where: {
         availability: true,

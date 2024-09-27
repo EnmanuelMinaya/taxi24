@@ -7,11 +7,11 @@ export class PassengersController {
 
   @Get()
   findAll() {
-    return this.passengersService.findAll();
+    return this.passengersService.passengers();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.passengersService.findOne(+id);
+    return this.passengersService.passenger(+id);
   }
 }

@@ -1,12 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { Passenger } from '@prisma/client';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class PassengersService {
-  findAll() {
-    return `This action returns all passengers`;
+  constructor(private prisma: PrismaService) {}
+
+  async passenger(passengerId: number): Promise<Passenger | null> {
+    return this.prisma.passenger.findUnique({
+      where: { id: passengerId },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} passenger`;
+  async passengers(): Promise<Passenger[]> {
+    return this.prisma.passenger.findMany({});
   }
 }

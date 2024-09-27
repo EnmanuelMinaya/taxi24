@@ -32,10 +32,10 @@ model Ride {
   id          Int      @id @default(autoincrement())
   driverId    Int?
   passengerId Int?
-  startLatitude Float   
-  startLongitude Float   
-  endLatitude   Float
-  endLongitude   Float
+  startLatitude Float?   
+  startLongitude Float?   
+  endLatitude   Float?
+  endLongitude   Float?
   status        String  @default("pending")
   startTime     DateTime?
   endTime       DateTime?
