@@ -1,10 +1,19 @@
 ## Project setup
 
+Create the psql database Taxi24 and add the connection string to an .env file in the root directory.
+Example:
+DATABASE_URL=postgres://{user}:{password}@{hostname}:{port}/{database-name}
+
+Install dependencies and create database tables via prisma migration
+
 ```bash
 $ npm install
 $ npx prisma migrate dev
-
 ```
+
+## Insert test data
+
+Run the inserts in the file /insertTestData.sql
 
 ## Compile and run the project
 
@@ -86,3 +95,6 @@ Gets all passengers
 GET
 /passengers
 curl --location 'http://localhost:3000/passengers'
+
+#Considerations
+Notice that the location of the drivers are not persisted on the database, instead they are simulated in the services getDriversInsideRadio and getNearDrivers. As this data is constanly changing in real time I believe it should be provided by a another service which is out of the scope of the project.

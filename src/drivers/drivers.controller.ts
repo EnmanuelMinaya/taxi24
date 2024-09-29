@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { DriversService } from './services/drivers.service';
-import { GetDriversInsideRadioService } from './services/GetDriversInsideRadio.service';
-import { GetNearDriversService } from './services/GetNearDrivers.service';
+import { GetDriversInsideRadioService } from './services/getDriversInsideRadio.service';
+import { GetNearDriversService } from './services/getNearDrivers.service';
 
 @Controller('drivers')
 export class DriversController {
